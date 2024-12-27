@@ -9,6 +9,8 @@
 #define RYAN_CYLINDER
 #include <stdlib.h>
 #include <cmath>
+#include <vector>
+#include <GL/gl.h>
 #include "ryan_vector.h"
 #include "ryan_matrix.h"
 

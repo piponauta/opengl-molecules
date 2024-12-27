@@ -263,6 +263,7 @@ int main(int argc, char** argv) {
 
   // load default molecule
   molecule = new Molecule("cmls/caffeine.cml");
+  glutSetWindowTitle(molecule->getName().c_str());
 
   const char *skyboxTex[6] ={
     "textures/bokeh_right.png",

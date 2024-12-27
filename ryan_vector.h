@@ -13,8 +13,8 @@
 #include <math.h>
 #include "assert.h"
 
-#define DegreeToRadians(x) (float)(((x) * M_PI / 180.0f))
-#define RadianToDegrees(x) (float)(((x) * 180.0f / M_PI))
+static inline float DegreeToRadians( float x ) { return static_cast<float>(x * M_PI / 180.0); }
+static inline float  RadianToDegrees( float x ) { return static_cast<float>(x * 180.0 / M_PI); }
 
 struct Vector2f {
   float x;

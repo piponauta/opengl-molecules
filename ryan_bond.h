@@ -1,10 +1,9 @@
 #ifndef RYAN_BOND
 #define RYAN_BOND
 
-#include "ryan_matrix.h"
 #include "cylinder.h"
 #include "ryan_vector.h"
-#include <iostream>
+#include "ryan_atom.h"
 #include <cmath>
 
 class Bond {

@@ -1,6 +1,7 @@
 #ifndef RYAN_ATOM
 #define RYAN_ATOM
 
+#include <string>
 #include "ryan_sphere.h"
 
 class Atom {

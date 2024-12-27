@@ -9,6 +9,7 @@
 #define RYAN_SPHERE
 #include <stdlib.h>
 #include <cmath>
+#include <GL/gl.h>
 #include "ryan_vector.h"
 #include "ryan_matrix.h"
 

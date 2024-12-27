@@ -1,8 +1,8 @@
 #ifndef RYAN_LIGHT
 #define RYAN_LIGHT
 
+#include <GL/gl.h>
 #include "ryan_vector.h"
-#include "ryan_matrix.h"
 
 class Light {
 public:

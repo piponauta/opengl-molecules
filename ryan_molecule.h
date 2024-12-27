@@ -2,6 +2,7 @@
 #define RYAN_MOLECULE
 
 #include <algorithm>
+#include <map>
 #include "ryan_atom.h"
 #include "ryan_bond.h"
 #include "pugixml.hpp"
@@ -22,6 +23,7 @@ std::string trim(std::string const& str) {
 
 class Molecule {
 protected:
+  std::string name;
   std::vector<Atom> atom_list;
   std::vector<Bond> bond_list;
   const GLfloat ATOM_RADIUS = 0.7;
@@ -36,12 +38,10 @@ public:
     }
     atom_list.clear();
     bond_list.clear();
-    std::string name = doc.child("molecule").child_value("name");
+    name = doc.child("molecule").child_value("name");
 
     if(name.length() > 0) {
-      glutSetWindowTitle(name.c_str());
-    } else {
-      glutSetWindowTitle(filename.c_str());
+        name = filename;
     }
 
     std::map<std::string, Atom> atom_map;
@@ -84,6 +84,8 @@ public:
   ~Molecule() {
     // destructor
   }
+
+  inline const std::string& getName() const { return name; }
 
   void rotateX(GLfloat amount) {
     rotateXAmt = amount;

@@ -2,6 +2,7 @@
 #define RYAN_CAMERA
 
 #pragma once
+#include <GL/gl.h>
 #include "ryan_matrix.h"
 
 class Camera {

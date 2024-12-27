@@ -14,7 +14,7 @@
 #include <math.h>
 #include "assert.h"
 #include "ryan_vector.h"
-#include <iostream>
+// #include <iostream>
 
 #define DegreeToRadians(x) (float)(((x) * M_PI / 180.0f))
 #define RadianToDegrees(x) (float)(((x) * 180.0f / M_PI))

@@ -30,9 +30,17 @@ list(TRANSFORM OPENGL_MOLECULES_RESOURCES PREPEND ${CMAKE_CURRENT_BINARY_DIR}/)
 
 
 add_executable(opengl-molecules
+    cylinder.h
     main.cpp
+    ryan_atom.h
+    ryan_bond.h
     ryan_camera.h
     ryan_camera.cpp
+    ryan_light.h
+    ryan_matrix.h
+    ryan_molecule.h
+    ryan_sphere.h
+    ryan_vector.h
     Shader.h
     Shader.cpp
     SkyBox.h
