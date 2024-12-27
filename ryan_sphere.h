@@ -7,32 +7,35 @@
 
 #ifndef RYAN_SPHERE
 #define RYAN_SPHERE
-#include <stdlib.h>
+#include <memory>
+#include <iostream>
 #include <cmath>
-#include <GL/gl.h>
 #include "ryan_vector.h"
 #include "ryan_matrix.h"
 
-int numTriangles;
-
-struct sphereVertex {
-  float pos[4];
-  float normal[4]; // the average normal
-  short numFaces;  // number of faces shared by the vertex
-  long colora;     // ambient colour - change to a colour structure
-  long colord;     // diffuse color    - change to a colour structure
-  long colors;     // specular colour  - change to a colour structure
-};
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#include <glew.h>
+#elif defined(__linux__)
+#include <GL/glew.h>
+#endif
 
 class SolidSphere {
 protected:
     GLfloat radius;
-    struct sphereVertex * vtx = NULL;
     GLuint sphereVBO;   // Vertex handle that contains interleaved positions and colors
     GLuint triangleVBO; // Triangle handle that contains triangle indices
-    GLuint * ind = NULL;
     int numInd;
 public:
+  struct sphereVertex {
+      float pos[4];
+      float normal[4]; // the average normal
+      short numFaces;  // number of faces shared by the vertex
+      long colora;     // ambient colour - change to a colour structure
+      long colord;     // diffuse color    - change to a colour structure
+      long colors;     // specular colour  - change to a colour structure
+  };
   Matrix4f modelMat = Matrix4f::identity();
   Matrix4f rotMat = Matrix4f::identity();
   Vector4f materialAmbient;
@@ -51,29 +54,27 @@ public:
     float beta = 0.0;   // angle of longtitude in the rage of 0-360
     float deltaAlpha;
     float deltaBeta;
-    int numRows;
-    int numCols;
+    int numRows = numLat*2; // number of horizonal slabs
+    int numCols = numLong;  // number of vertical slabs
     numInd = 0;
-    numRows = numLat*2;  // number of horizonal slabs
-    numCols = numLong;  // number of vertical slabs
 
     int numVtx = (numRows+1) * (numCols+1);   // define only the north hemisphere
     int numQuads = numRows * numCols;
-    numTriangles = numQuads * 2;
+    int numTriangles = numQuads * 2;
 
     // allocate memory
-    vtx = (struct sphereVertex *) malloc(sizeof(struct sphereVertex) * numVtx);
-    if (vtx == NULL) {
+    auto vtx = std::make_unique<sphereVertex[]>(numVtx);
+    if (!vtx) {
       // error
       rc = 1;
-      printf("Oops! An error occurred\n");
+      std::cerr << "Oops! An error occurred" << std::endl;
     }
 
-    ind = (GLuint *) malloc(sizeof(GLuint) * numTriangles * 3);
-    if (ind == NULL) {
+    auto ind = std::make_unique<GLuint[]>(numTriangles * 3);
+    if (!ind) {
       // error
       rc = 1;
-      printf("Oops! An error occurred\n");
+      std::cerr << "Oops! An error occurred" << std::endl;
     }
 
     // Fill the vertex buffer with positions
@@ -125,14 +126,16 @@ public:
 
     glGenBuffers(1, &sphereVBO);
     glBindBuffer(GL_ARRAY_BUFFER, sphereVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(struct sphereVertex)*numVtx, vtx, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(struct sphereVertex)*numVtx, vtx.get(), GL_STATIC_DRAW);
     glGenBuffers(1, &triangleVBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleVBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * numInd, ind, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * numInd, ind.get(), GL_STATIC_DRAW);
   }
 
   ~SolidSphere() {
-    std::cout << "Deleted sphere" << std::endl;
+    glDeleteBuffers(1, &sphereVBO);
+    glDeleteBuffers(1, &triangleVBO);
+    // std::cout << "Deleted sphere" << std::endl;
   }
 
   void rotateX(GLfloat angle, int degrees) {
@@ -143,7 +146,7 @@ public:
 
   Vector4f getPosition() {
     Vector4f pos = modelMat * Vector4f(0, 0, 0, 1.0);
-    printf("x: %f, y: %f, z: %f\n", pos.x, pos.y, pos.z);
+    std::cout << "x: " << pos.x << ", y: " << pos.y << ", z:" << pos.z << std::endl;
     return pos;
   }
 
@@ -219,7 +222,7 @@ public:
     relAddress = (char *) v.normal - (char *) &v;
     glVertexAttribPointer(normalLoc,4,GL_FLOAT, GL_FALSE, sizeof(struct sphereVertex),(char*) NULL+relAddress);
     // draw the triangles
-    glDrawElements(GL_TRIANGLES, numTriangles*3, GL_UNSIGNED_INT, (char*) NULL+0);
+    glDrawElements(GL_TRIANGLES, numInd, GL_UNSIGNED_INT, (char*) NULL+0);
     this->clear();
   }
 

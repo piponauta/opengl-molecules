@@ -4,13 +4,16 @@
 #include "cylinder.h"
 #include "ryan_vector.h"
 #include "ryan_atom.h"
+#include <memory>
 #include <cmath>
 
 class Bond {
+public:
+    typedef std::shared_ptr<Cylinder> CylinderPtr;
 protected:
-  Cylinder * firstBond;
-  Cylinder * secondBond;
-  Cylinder * thirdBond;
+  CylinderPtr firstBond;
+  CylinderPtr secondBond;
+  CylinderPtr thirdBond;
   GLfloat x, y, z;
   Atom firstAtom;
   Atom secondAtom;
@@ -20,9 +23,9 @@ public:
     this->numBonds = order;
     this->firstAtom = firstAtom;
     this->secondAtom = secondAtom;
-    this->firstBond = new Cylinder(30);
-    this->secondBond = new Cylinder(30);
-    this->thirdBond = new Cylinder(30);
+    this->firstBond = std::make_shared<Cylinder>(30);
+    this->secondBond = std::make_shared<Cylinder>(30);
+    this->thirdBond = std::make_shared<Cylinder>(30);
     this->x = (secondAtom.x + firstAtom.x) / 2.0;
     this->y = (secondAtom.y + firstAtom.y) / 2.0;
     this->z = (secondAtom.z + firstAtom.z) / 2.0;

@@ -7,12 +7,20 @@
 
 #ifndef RYAN_CYLINDER
 #define RYAN_CYLINDER
+#include <ostream>
 #include <stdlib.h>
 #include <cmath>
 #include <vector>
-#include <GL/gl.h>
 #include "ryan_vector.h"
 #include "ryan_matrix.h"
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#include <glew.h>
+#elif defined(__linux__)
+#include <GL/glew.h>
+#endif
 
 struct Vertex{
     Vertex(){}
@@ -92,6 +100,10 @@ public:
     glBufferData( GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLuint), m_indices.data(), GL_STATIC_DRAW );
   }
 
+  ~Cylinder() {
+      glDeleteBuffers(1, &m_vbo);
+      glDeleteBuffers(1, &m_idxVbo);
+  }
   /**
    * Rotate the sphere around the y-axis.
    *

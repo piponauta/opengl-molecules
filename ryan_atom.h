@@ -2,17 +2,20 @@
 #define RYAN_ATOM
 
 #include <string>
+#include <memory>
 #include "ryan_sphere.h"
 
 class Atom {
+public:
+    typedef std::shared_ptr<SolidSphere> SolidSpherePtr;
 protected:
-  SolidSphere * sphere;
+  SolidSpherePtr sphere;
   GLfloat radius;
 public:
   GLfloat x, y, z;
   Atom() {}
   Atom(GLfloat radius, GLfloat x, GLfloat y, GLfloat z, std::string type) {
-    sphere = new SolidSphere(radius, 60, 60);
+    sphere = std::make_shared<SolidSphere>(radius, 60, 60);
     this->radius = radius;
     this->x = x;
     this->y = y;
