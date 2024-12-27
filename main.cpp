@@ -3,7 +3,7 @@
 #include "math.h"
 #include <iostream>
 #include <fstream>
-#include <map>
+#include <memory>
 #include "Shader.h"
 #include "ryan_camera.h"
 #include "ryan_matrix.h"
@@ -37,7 +37,9 @@ int moleculeFileIndex = 0;
 
 std::vector<std::string> files;
 
-Molecule * molecule;
+typedef std::unique_ptr<Molecule> MoleculePtr;
+
+MoleculePtr molecule;
 GLfloat rotateMoleculeX = 0;
 GLfloat rotateMoleculeY = 0;
 
@@ -198,7 +200,8 @@ void pressSpecialKey(int key, int xx, int yy) {
       if(moleculeFileIndex >= files.size()) {
         moleculeFileIndex = 0;
       }
-      molecule = new Molecule(files.at(moleculeFileIndex));
+      molecule = std::make_unique<Molecule>(files.at(moleculeFileIndex));
+      glutSetWindowTitle(molecule->getName().c_str());
       break;
     }
     case GLUT_KEY_LEFT: {
@@ -207,7 +210,8 @@ void pressSpecialKey(int key, int xx, int yy) {
       if(moleculeFileIndex < 0) {
         moleculeFileIndex = files.size()-1;
       }
-      molecule = new Molecule(files.at(moleculeFileIndex));
+      molecule = std::make_unique<Molecule>(files.at(moleculeFileIndex));
+      glutSetWindowTitle(molecule->getName().c_str());
       break;
     }
   }
@@ -262,7 +266,7 @@ int main(int argc, char** argv) {
 #endif
 
   // load default molecule
-  molecule = new Molecule("cmls/caffeine.cml");
+  molecule = std::make_unique<Molecule>("cmls/caffeine.cml");
   glutSetWindowTitle(molecule->getName().c_str());
 
   const char *skyboxTex[6] ={

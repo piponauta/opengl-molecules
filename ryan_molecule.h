@@ -40,7 +40,7 @@ public:
     bond_list.clear();
     name = doc.child("molecule").child_value("name");
 
-    if(name.length() > 0) {
+    if(name.empty() || std::all_of(name.begin(),name.end(),isspace)) {
         name = filename;
     }
 
