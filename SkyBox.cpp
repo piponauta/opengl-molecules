@@ -56,7 +56,11 @@ static int loadSkyboxImage(const char *texFileName, GLuint target) {
   int channels;
 
   image = SOIL_load_image(texFileName, &width, &height, &channels, SOIL_LOAD_RGB);
+  if (!image) {
+      return 10;
+  }
   glTexImage2D(target, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+  free(image);
   rc = checkError();
   return(rc);
 }

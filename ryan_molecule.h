@@ -78,7 +78,7 @@ public:
 
       bond_list.push_back(tempBond);
     }
-    printf("Loaded molecule: %s\n", filename.c_str());
+    std::cout << "Loaded molecule: " << filename.c_str() << std::endl;
   }
 
   ~Molecule() {
