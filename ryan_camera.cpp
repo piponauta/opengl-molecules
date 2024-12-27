@@ -4,13 +4,16 @@
  * Has been heavily modified by Ryan Seys - 100817604.
  */
 
-#include "stdlib.h"
-#include "stdio.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 #ifdef __APPLE_CC__
 #include <GLUT/glut.h>
-#else
-#include "glew.h"
+#elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#include <glew.h>
+#include <GL/glut.h>
+#elif defined(__linux__)
+#include <GL/glew.h>
 #include <GL/glut.h>
 #endif
 

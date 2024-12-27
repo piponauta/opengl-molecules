@@ -200,7 +200,7 @@ struct Vector4f {
     this->w = w;
   }
 
-  Vector4f setValue(float f) {
+  void setValue(float f) {
     x= y= z= w=f;
   }
 

@@ -8,7 +8,6 @@
 #ifndef RYAN_SPHERE
 #define RYAN_SPHERE
 #include <stdlib.h>
-#include <vector>
 #include <cmath>
 #include "ryan_vector.h"
 #include "ryan_matrix.h"

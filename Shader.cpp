@@ -25,7 +25,7 @@ Shader::~Shader(void) {
  * @param  fileName Filename to be read
  * @return          Shader code as a char *
  */
-char * Shader::readCode(char * fileName) {
+char * Shader::readCode(const char *fileName) {
   char * shaderCode = NULL;
   int codeLength = 0;
   FILE *fp = NULL;
@@ -66,7 +66,7 @@ char * Shader::readCode(char * fileName) {
  * @param  shaderid   Shader identifier pointer.
  * @return            0 - if successful, -1 if error.
  */
-int Shader::createShaderObj(char* fileName , int shaderType, GLuint *shaderid) {
+int Shader::createShaderObj(const char *fileName , int shaderType, GLuint *shaderid) {
   char *code = NULL;
   int rc = 0;
 
@@ -176,7 +176,7 @@ err:
  * @param  shaderProgramid A handle to the shader program.
  * @return                 0 if successful !=0 if error.
  */
-int Shader::createShaderProgram(char * vsFileName, char * fsFileName, unsigned int *shaderProgramid) {
+int Shader::createShaderProgram(const char * vsFileName, const char *fsFileName, unsigned int *shaderProgramid) {
 
   int rc = 0;
 

@@ -49,7 +49,7 @@ SkyBox::SkyBox(void) : texHandle(0),s() {
 SkyBox::~SkyBox(void) {
 }
 
-static int loadSkyboxImage(char *texFileName, GLuint target) {
+static int loadSkyboxImage(const char *texFileName, GLuint target) {
   int rc = 0;
   int width=1, height=1;
   unsigned char* image;
@@ -61,7 +61,7 @@ static int loadSkyboxImage(char *texFileName, GLuint target) {
   return(rc);
 }
 
-int SkyBox::loadSkybox(char ** texFileName) {
+int SkyBox::loadSkybox(const char ** texFileName) {
   int rc;
   int i;
   int width=1, height=1;

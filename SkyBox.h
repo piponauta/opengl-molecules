@@ -33,8 +33,11 @@
 // setting the different callback functions of OpenGL
 #ifdef __APPLE_CC__
 #include <GLUT/glut.h>
-#else
-#include "glew.h"
+#elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#include <glew.h>
+#include <GL/glut.h>
+#elif defined(__linux__)
+#include <GL/glew.h>
 #include <GL/glut.h>
 #endif
 
@@ -45,7 +48,7 @@ class SkyBox {
 public:
 	SkyBox(void);
 	~SkyBox(void);
-	int loadSkybox(char ** texFileName);
+    int loadSkybox(const char ** texFileName);
 	void displaySkybox(Camera cam);
 	GLuint getTexHandle(void);
 

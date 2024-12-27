@@ -9,13 +9,15 @@
 #include "ryan_matrix.h"
 #include "ryan_light.h"
 #include "ryan_molecule.h"
-#include "SOIL.h"
 #include "SkyBox.h"
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
-#else
-#include "glew.h"
+#elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#include <glew.h>
+#include <GL/glut.h>
+#elif defined(__linux__)
+#include <GL/glew.h>
 #include <GL/glut.h>
 #endif
 
@@ -252,16 +254,17 @@ int main(int argc, char** argv) {
   glutMouseFunc(mouseButton);
   glutMotionFunc(mouseMove);
 
-  // Uncomment the code below to work on Windows!
-  // GLenum err = glewInit();
-  // if (err != GLEW_OK) {
-  //   printf("Error initializing GLEW!\n");
-  // }
+#ifndef __APPLE__
+  GLenum err = glewInit();
+  if (err != GLEW_OK) {
+    printf("Error initializing GLEW!\n");
+  }
+#endif
 
   // load default molecule
   molecule = new Molecule("cmls/caffeine.cml");
 
-  char *skyboxTex[6] ={
+  const char *skyboxTex[6] ={
     "textures/bokeh_right.png",
     "textures/bokeh_left.png",
     "textures/bokeh_top.png",
