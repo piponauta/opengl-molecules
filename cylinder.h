@@ -17,7 +17,7 @@
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
-#include <glew.h>
+#include <GL/glew.h>
 #elif defined(__linux__)
 #include <GL/glew.h>
 #endif
