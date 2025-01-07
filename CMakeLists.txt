@@ -50,5 +50,5 @@ add_executable(opengl-molecules
     pugixml.cpp
     ${OPENGL_MOLECULES_RESOURCES}
 )
-target_link_libraries(opengl-molecules PRIVATE SOIL GLUT::GLUT GLEW::GLEW OpenGL::OpenGL)
+target_link_libraries(opengl-molecules PRIVATE SOIL GLUT::GLUT GLEW::GLEW OpenGL::GL)
 # target_include_directories(opengl-molecules PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../libSOIL)
